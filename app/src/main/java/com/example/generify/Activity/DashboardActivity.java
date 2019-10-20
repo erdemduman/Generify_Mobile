@@ -11,17 +11,22 @@ import com.example.generify.R;
 import com.example.generify.View.IDashboardView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DashboardActivity extends BaseActivity implements IDashboardView {
 
     DashboardPresenterImpl dashboardPresenter;
-    BottomNavigationView dashboard_bottom_nav;
+    @BindView(R.id.dashboard_bottom_navigation) BottomNavigationView dashboard_bottom_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
 
         dashboardPresenter = new DashboardPresenterImpl(this);
-        dashboard_bottom_nav = findViewById(R.id.dashboard_bottom_navigation);
+        dashboardPresenter.defaultFragment();
+
         dashboard_bottom_nav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

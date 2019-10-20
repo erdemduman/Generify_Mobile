@@ -18,6 +18,10 @@ public class DashboardPresenterImpl {
         this.view = view;
     }
 
+    public void defaultFragment(){
+        view.changeFragment(new HomeFragment());
+    }
+
     public void handleFragment(MenuItem item){
 
         Fragment fragment = null;
