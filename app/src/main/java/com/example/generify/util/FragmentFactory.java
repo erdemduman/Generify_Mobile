@@ -1,4 +1,4 @@
-package com.example.generify.view.util;
+package com.example.generify.util;
 
 import android.view.MenuItem;
 

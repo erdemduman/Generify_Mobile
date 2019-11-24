@@ -9,10 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.generify.R;
 import com.example.generify.constant.SharedConstants;
-import com.example.generify.view.util.FragmentFactory;
+import com.example.generify.util.FragmentFactory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import butterknife.BindView;
 
 public class DashboardActivity extends BaseActivity {
 

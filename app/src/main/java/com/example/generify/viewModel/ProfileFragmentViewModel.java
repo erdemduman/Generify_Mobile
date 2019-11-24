@@ -7,7 +7,11 @@ import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.generify.Command;
+import com.example.generify.constant.ServiceDictionaryEnum;
 import com.example.generify.service.SpotifyAuth;
+import com.example.generify.service.UserService;
+import com.example.generify.util.GenerifyCallback;
+import com.example.generify.util.GenerifyFunction;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 
 public class ProfileFragmentViewModel extends BaseViewModel {
