@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card_top_songs_id"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="3"
+        android:columnCount="3">
+
+        <ImageView
+            android:id="@+id/card_top_songs_album_cover_id"
+            android:src="@drawable/sw"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowSpan="3"/>
+
+        <ImageView
+            android:id="@+id/card_top_songs_play_stop_id"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:layout_height="40sp"
+            android:layout_width="40sp"
+            android:layout_row="0"
+            android:layout_column="1"/>
+
+        <TextView
+            android:id="@+id/card_top_songs_track_name_id"
+            android:text="Discard Your Fear"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_height="40sp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_marginLeft="10sp"/>
+
+        <TextView
+            android:id="@+id/card_top_songs_album_id"
+            android:text="Love, Fear and the Time Machine"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_height="40sp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_marginLeft="10sp"/>
+
+        <TextView
+            android:id="@+id/card_top_songs_band_id"
+            android:text="Riverside"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_height="40sp"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_marginLeft="10sp"/>
+
+
+    </GridLayout>
+
+</androidx.cardview.widget.CardView>

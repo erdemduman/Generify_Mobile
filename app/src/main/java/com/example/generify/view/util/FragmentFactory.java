@@ -1,29 +1,17 @@
-package com.example.generify;
+package com.example.generify.view.util;
 
 import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.generify.Fragment.HomeFragment;
-import com.example.generify.Fragment.NotificationsFragment;
-import com.example.generify.Fragment.PlaylistFragment;
-import com.example.generify.Fragment.ProfileFragment;
-import com.example.generify.View.IDashboardView;
+import com.example.generify.R;
+import com.example.generify.view.fragment.HomeFragment;
+import com.example.generify.view.fragment.NotificationsFragment;
+import com.example.generify.view.fragment.PlaylistFragment;
+import com.example.generify.view.fragment.ProfileFragment;
 
-public class DashboardPresenterImpl {
-
-    private IDashboardView view;
-
-    public DashboardPresenterImpl(IDashboardView view){
-        this.view = view;
-    }
-
-    public void defaultFragment(){
-        view.changeFragment(new HomeFragment());
-    }
-
-    public void handleFragment(MenuItem item){
-
+public class FragmentFactory {
+    public static Fragment getDashboardFragment(MenuItem item){
         Fragment fragment = null;
 
         switch (item.getItemId()){
@@ -43,8 +31,10 @@ public class DashboardPresenterImpl {
                 fragment = new ProfileFragment();
                 break;
         }
-
-        view.changeFragment(fragment);
+        return fragment;
     }
 
+    public static Fragment getDashboardFragment(){
+        return new HomeFragment();
+    }
 }

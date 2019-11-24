@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="command"
+            type="com.example.generify.Command" />
+
+        <variable
+            name="commandParameter"
+            type="Object" />
+    </data>
+
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/leftTitleButtonId"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="98"
+                android:text="Title"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_settings_black_24dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+
+    </LinearLayout>
+</layout>
+
+
+
+
+
+

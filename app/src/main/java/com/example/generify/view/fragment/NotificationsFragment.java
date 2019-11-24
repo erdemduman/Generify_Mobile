@@ -1,4 +1,4 @@
-package com.example.generify.Fragment;
+package com.example.generify.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
