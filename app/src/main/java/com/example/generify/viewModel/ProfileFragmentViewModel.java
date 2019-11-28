@@ -1,74 +1,50 @@
 package com.example.generify.viewModel;
+import android.app.Application;
 import android.util.Log;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.generify.Command;
-import com.example.generify.constant.ServiceDictionaryEnum;
+import com.example.generify.command.Command;
+import com.example.generify.command.ICommand;
 import com.example.generify.service.SpotifyAuth;
-import com.example.generify.service.UserService;
-import com.example.generify.util.GenerifyCallback;
-import com.example.generify.util.GenerifyFunction;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 
 public class ProfileFragmentViewModel extends BaseViewModel {
 
-    private MutableLiveData<AuthenticationRequest> spotifyAuthRequest;
-
-    @Bindable
+    private MutableLiveData<AuthenticationRequest> spotifyAuthRequestProp;
     public String profileText;
+    private ICommand back;
 
-    @Bindable
-    public Command backCmd;
-
-    public ProfileFragmentViewModel(){
-        spotifyAuthRequest = new MutableLiveData<>();
+    public ProfileFragmentViewModel(@NonNull Application application){
+        super(application);
+        spotifyAuthRequestProp = new MutableLiveData<>();
         initCmd();
     }
 
     private void initCmd(){
-        setBackCmd();
+        back = new Command<Void>(this::cmdBack);
     }
 
     public void onClickLoginToSpotify(){
-        spotifyAuthRequest();
+        runSpotifyAuthRequest();
     }
 
-    public void spotifyAuthRequest(){
-        setSpotifyAuthRequest();
+    public void runSpotifyAuthRequest(){
+        spotifyAuthRequestProp.setValue(SpotifyAuth.getAuthRequest());
     }
 
-    private void setBackCmd(){
-        backCmd = new Command() {
-            @Override
-            public void execute() {
-                if(canExecute()){
-                    Log.d("TAG", "DOOGRU AQQ");
-                }
-            }
-            @Override
-            public void execute(Object param) { }
-            @Override
-            public boolean canExecute() {
-                return true;
-            }
-        };
-        notifyPropertyChanged(BR.backCmd);
+    public ICommand getBackCmd(){
+        return back;
     }
 
-    public Command getBackCmd(){
-        return backCmd;
+    public LiveData<AuthenticationRequest> getSpotifyAuthRequest(){
+        return spotifyAuthRequestProp;
     }
 
-    private void setSpotifyAuthRequest(){
-        spotifyAuthRequest.setValue(SpotifyAuth.getAuthRequest());
-    }
-
-    public MutableLiveData<AuthenticationRequest> getSpotifyAuthRequest(){
-        return spotifyAuthRequest;
+    private void cmdBack(Void param){
+        Log.d("TAG", "DOOGRU AQQ");
     }
 
 }

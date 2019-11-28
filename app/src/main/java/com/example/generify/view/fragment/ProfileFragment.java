@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.generify.R;
 import com.example.generify.databinding.DashboardProfileFragmentBinding;
 import com.example.generify.constant.Constants;
 import com.example.generify.constant.SharedConstants;
+import com.example.generify.util.ViewModelFactory;
 import com.example.generify.viewModel.ProfileFragmentViewModel;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -23,26 +25,23 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ProfileFragment extends BaseFragment {
+public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, DashboardProfileFragmentBinding> {
 
-    private DashboardProfileFragmentBinding binding;
-    private ProfileFragmentViewModel viewModel;
-    private View view;
     private View auth_view;
     private View non_auth_view;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = getActivity();
+        application = activity.getApplication();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.init(inflater, container);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.dashboard_profile_fragment, container, false);
-        viewModel = new ProfileFragmentViewModel();
-        binding.setViewModel(viewModel);
-        view = binding.getRoot();
-
-        initArguments();
-        initView();
-        initObserver();
         initPage();
 
         return view;
@@ -69,7 +68,7 @@ public class ProfileFragment extends BaseFragment {
                     break;
 
                 case ERROR:
-                    Log.d("ERROR", "There is an error here.");
+                    Log.d("ERROR", response.getError());
                     break;
 
                 default:
@@ -80,24 +79,34 @@ public class ProfileFragment extends BaseFragment {
 
     //region Init Methods
 
-    private void initArguments(){
+    @Override
+    protected void initArguments(){
         if(getArguments() != null){
-            sharedPreferences = getActivity().
-                    getApplicationContext().
-                    getSharedPreferences(getArguments().getString("sharedPreferences"), Context.MODE_PRIVATE);
+            sharedPreferences = application.getSharedPreferences(getArguments().getString("sharedPreferences"),
+                    Context.MODE_PRIVATE);
             editor = sharedPreferences.edit();
         }
     }
 
-    private void initView(){
+    @Override
+    protected void initViewModel(){
+        viewModel = ViewModelProviders.of(this, new ViewModelFactory(application)).
+                get(ProfileFragmentViewModel.class);
+        binding.setViewModel(viewModel);
+    }
+
+
+    @Override
+    protected void initView(){
         auth_view = view.findViewById(R.id.profile_fragment_auth_id);
         non_auth_view = view.findViewById(R.id.profile_fragment_nonauth_id);
     }
 
-    private void initObserver(){
+    @Override
+    protected void initObserver(){
         viewModel.getSpotifyAuthRequest().observe(this, request -> {
             try {
-                Intent intent = AuthenticationClient.createLoginActivityIntent(getActivity(), request);
+                Intent intent = AuthenticationClient.createLoginActivityIntent(activity, request);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
             }catch (NullPointerException e){
                 e.printStackTrace();
@@ -108,11 +117,9 @@ public class ProfileFragment extends BaseFragment {
 
     private void initPage(){
         if(sharedPreferences.getBoolean(SharedConstants.IS_AUTH, false)){
-            viewModel.spotifyAuthRequest();
             auth_view.setVisibility(View.VISIBLE);
             non_auth_view.setVisibility(View.GONE);
         }
-
         else{
             auth_view.setVisibility(View.GONE);
             non_auth_view.setVisibility(View.VISIBLE);
@@ -120,6 +127,11 @@ public class ProfileFragment extends BaseFragment {
     }
 
     //endregion
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.dashboard_profile_fragment;
+    }
 
     @Override
     public void onDestroyView() {

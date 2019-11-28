@@ -5,7 +5,7 @@
     <data>
         <variable
             name="command"
-            type="com.example.generify.Command" />
+            type="com.example.generify.command.ICommand" />
 
         <variable
             name="commandParameter"
