@@ -11,7 +11,11 @@ public class SpotifyAuth {
                 new AuthenticationRequest.Builder(Constants.CLIENT_ID,
                         AuthenticationResponse.Type.TOKEN, Constants.REDIRECT_URI);
 
-        builder.setScopes(new String[]{"user-read-private", "user-read-email", "streaming"});
+        builder.setScopes(new String[]{
+                "user-read-private",
+                "user-read-email",
+                "streaming",
+                "user-top-read"});
         AuthenticationRequest request = builder.build();
 
         return request;

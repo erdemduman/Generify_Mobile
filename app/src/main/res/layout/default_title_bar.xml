@@ -36,8 +36,7 @@
                 android:layout_weight="98"
                 android:text="Title"
                 android:gravity="center"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+                android:textSize="20sp" />
 
             <ImageView
                 android:layout_width="wrap_content"

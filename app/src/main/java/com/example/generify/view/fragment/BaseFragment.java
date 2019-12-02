@@ -31,6 +31,7 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
 
     protected void init(@NonNull LayoutInflater inflater, @Nullable ViewGroup container){
         binding = DataBindingUtil.inflate(inflater, getLayoutResourceId(), container, false);
+        binding.setLifecycleOwner(this);
         view = binding.getRoot();
 
         initArguments();

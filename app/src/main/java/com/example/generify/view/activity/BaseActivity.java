@@ -2,6 +2,8 @@ package com.example.generify.view.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -28,6 +30,13 @@ public abstract class BaseActivity<T extends BaseViewModel, B extends ViewDataBi
         initListener();
         initObserver();
 
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Window window = getWindow();
+        window.setFormat(PixelFormat.RGBA_8888);
     }
 
     protected abstract void initViewModel();

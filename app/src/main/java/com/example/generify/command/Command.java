@@ -4,15 +4,15 @@ import com.example.generify.util.GenerifyFunction;
 
 public class Command<T> implements ICommand {
 
-    private GenerifyFunction.Action<T> command;
+    private GenerifyFunction.ActionT<T> command;
     private boolean canExecuteParam;
 
-    public Command(GenerifyFunction.Action<T> command){
+    public Command(GenerifyFunction.ActionT<T> command){
         this.command = command;
         this.canExecuteParam = true;
     }
 
-    public Command(GenerifyFunction.Action<T> command, boolean canExecuteParam){
+    public Command(GenerifyFunction.ActionT<T> command, boolean canExecuteParam){
         this.command = command;
         this.canExecuteParam = canExecuteParam;
     }

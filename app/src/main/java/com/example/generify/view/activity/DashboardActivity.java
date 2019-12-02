@@ -54,7 +54,7 @@ public class DashboardActivity extends BaseActivity<DashboardViewModel, Activity
                     else
                         throw new NullPointerException();
 
-                    Log.d("TOKEN", token);
+                    Log.d("FIRST_TOKEN", token);
                     break;
 
                 case ERROR:

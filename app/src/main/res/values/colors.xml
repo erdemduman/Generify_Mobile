@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FFBD26</color>
+    <color name="colorPrimaryDark">#AD7F18</color>
     <color name="colorAccent">#D81B60</color>
     <color name="malachite">#1ED761</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="darkYellow">#785811</color>
+    <color name="humanWhite">#AAFFFFFF</color>
+    <color name="backgroundStart">#FF856428</color>
+    <color name="backgroundEnd">#181818</color>
 </resources>

@@ -7,17 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.generify.R;
 import com.example.generify.databinding.DashboardProfileFragmentBinding;
 import com.example.generify.constant.Constants;
 import com.example.generify.constant.SharedConstants;
 import com.example.generify.util.ViewModelFactory;
+import com.example.generify.view.adapter.UserTopTracksAdapter;
 import com.example.generify.viewModel.ProfileFragmentViewModel;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -29,6 +33,8 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
 
     private View auth_view;
     private View non_auth_view;
+    private UserTopTracksAdapter userTopTracksAdapter;
+    private RecyclerView userTopTracksRecyclerView;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,7 +47,6 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.init(inflater, container);
-
         initPage();
 
         return view;
@@ -100,6 +105,7 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
     protected void initView(){
         auth_view = view.findViewById(R.id.profile_fragment_auth_id);
         non_auth_view = view.findViewById(R.id.profile_fragment_nonauth_id);
+        userTopTracksRecyclerView = view.findViewById(R.id.top_tracks_recycler_view);
     }
 
     @Override
@@ -112,6 +118,12 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
                 e.printStackTrace();
             }
 
+        });
+
+        viewModel.getUserTopTracks().observe(this, userTopTracks -> {
+            userTopTracksAdapter = new UserTopTracksAdapter(userTopTracks);
+            userTopTracksRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            userTopTracksRecyclerView.setAdapter(userTopTracksAdapter);
         });
     }
 

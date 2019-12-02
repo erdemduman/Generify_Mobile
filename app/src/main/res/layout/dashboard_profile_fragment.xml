@@ -115,6 +115,7 @@
                         android:textSize="35sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_tracks_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"/>
@@ -124,11 +125,12 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="end"
-                        android:text="Playlist"
+                        android:text="Top Artists"
                         android:textColor="@color/malachite"
                         android:textSize="35sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_artists_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"/>

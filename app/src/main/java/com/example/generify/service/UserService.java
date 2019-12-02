@@ -1,53 +1,75 @@
 package com.example.generify.service;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.generify.constant.ServiceDictionaryEnum;
+import com.example.generify.constant.Constants;
+import com.example.generify.constant.ServiceDictionary;
 import com.example.generify.constant.SharedConstants;
-import com.example.generify.util.GenerifyCallback;
-import com.example.generify.util.GenerifyFunction;
+import com.example.generify.model.UserTopTrack;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.List;
 
-public class UserService extends BaseSevice {
+import javax.net.ssl.HttpsURLConnection;
 
-    private String userTopTracksResponse;
+public class UserService extends BaseService {
 
-    public UserService(Context context){
-        super(context);
-        serviceDictionary.put(ServiceDictionaryEnum.USER_TOP_TRACKS, this::userTopTracks);
+    private String userTopTracks;
+
+    public UserService(Application application){
+        super(application);
+        serviceDictionary.put(ServiceDictionary.USER_TOP_TRACKS, this::runUserTopTracks);
     }
 
-    public void userTopTracks(GenerifyCallback callback){
+    private String runUserTopTracks(){
+        HttpsURLConnection conn;
+        String returnResponse = "";
+        URL obj;
         String endpoint = "https://api.spotify.com/v1/me/top/tracks";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, endpoint, null, response -> {
 
-                    callback.onSuccess();
-                }, error -> {
-                    Log.d("Error", "userTopTracks");
+        try{
+            obj = new URL(endpoint);
+            conn = (HttpsURLConnection) obj.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", Constants.USER_AGENT);
 
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString(SharedConstants.AUTH_TOKEN, "");
-                String auth = "Bearer " + token;
-                headers.put("Authorization", auth);
-                return headers;
+            String auth = "Bearer " + sharedPreferences.getString(SharedConstants.AUTH_TOKEN, "");
+            conn.setRequestProperty("Authorization", auth);
+
+            conn.connect();
+
+            //for debug
+            int code = conn.getResponseCode();
+
+            InputStream is = conn.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
             }
-        };
+            rd.close();
+            conn.disconnect();
 
+            Log.d("RESPONSE", response.toString());
+
+            returnResponse = response.toString();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return returnResponse;
     }
 
     public String getUserTopTracks(){
-        return userTopTracksResponse;
+        return userTopTracks;
     }
 }

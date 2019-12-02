@@ -1,14 +1,31 @@
 package com.example.generify.util;
 
-public class GenerifyFunction<T> {
+public class GenerifyFunction{
 
     @FunctionalInterface
-    public interface ServiceFunction{
-        void apply(GenerifyCallback callback);
+    public interface Action{
+        void apply();
     }
 
     @FunctionalInterface
-    public interface Action<T>{
+    public interface ActionT<T>{
         void apply(T param);
     }
+
+    @FunctionalInterface
+    public interface FunctionListT<T>{
+        void apply();
+    }
+
+    @FunctionalInterface
+    public interface TFunction<T>{
+        T apply();
+    }
+
+    @FunctionalInterface
+    public interface StringFunction{
+        String apply();
+    }
+
+
 }

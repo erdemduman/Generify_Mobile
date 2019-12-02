@@ -1,27 +1,29 @@
 package com.example.generify.service;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.generify.constant.ServiceDictionaryEnum;
+import com.android.volley.RequestQueue;
+import com.example.generify.constant.ServiceDictionary;
 import com.example.generify.constant.SharedConstants;
 import com.example.generify.util.GenerifyFunction;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseSevice {
-    protected Map<ServiceDictionaryEnum, GenerifyFunction.ServiceFunction> serviceDictionary;
+public abstract class BaseService {
+    protected Map<ServiceDictionary, GenerifyFunction.StringFunction> serviceDictionary;
     protected SharedPreferences sharedPreferences;
     protected SharedPreferences.Editor editor;
 
-    protected BaseSevice(Context context){
+    protected BaseService(Application application){
         serviceDictionary = new HashMap<>();
-        sharedPreferences = context.getSharedPreferences(SharedConstants.SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        sharedPreferences = application.getSharedPreferences(SharedConstants.SHARED_PREFERENCE, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    protected GenerifyFunction.ServiceFunction getMethod(ServiceDictionaryEnum key){
+    public GenerifyFunction.StringFunction getMethod(ServiceDictionary key){
         return serviceDictionary.get(key);
     }
 }

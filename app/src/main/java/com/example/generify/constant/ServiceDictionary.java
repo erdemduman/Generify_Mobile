@@ -1,5 +1,5 @@
 package com.example.generify.constant;
 
-public enum ServiceDictionaryEnum {
+public enum ServiceDictionary {
     USER_TOP_TRACKS
 }
