@@ -1,20 +1,18 @@
 package com.example.generify.model;
 
-import android.widget.ImageView;
-
-public class UserTopTrack{
+public class SearchTrack {
     private String albumCover;
-    private String albumId;
     private String artistId;
+    private String albumId;
     private String trackId;
     private String artistName;
     private String albumName;
     private String trackName;
 
-    public UserTopTrack(String albumCover, String albumId, String artistId, String trackId, String artistName, String albumName, String trackName) {
+    public SearchTrack(String albumCover, String artistId, String albumId, String trackId, String artistName, String albumName, String trackName) {
         this.albumCover = albumCover;
-        this.albumId = albumId;
         this.artistId = artistId;
+        this.albumId = albumId;
         this.trackId = trackId;
         this.artistName = artistName;
         this.albumName = albumName;
@@ -25,12 +23,12 @@ public class UserTopTrack{
         return albumCover;
     }
 
-    public String getAlbumId() {
-        return albumId;
-    }
-
     public String getArtistId() {
         return artistId;
+    }
+
+    public String getAlbumId() {
+        return albumId;
     }
 
     public String getTrackId() {

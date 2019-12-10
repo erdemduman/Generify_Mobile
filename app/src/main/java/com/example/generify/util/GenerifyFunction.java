@@ -23,9 +23,17 @@ public class GenerifyFunction{
     }
 
     @FunctionalInterface
-    public interface StringFunction{
+    public interface StrFunction{
         String apply();
     }
 
+    @FunctionalInterface
+    public interface StrFunctionStr{
+        String apply(String str);
+    }
 
+    @FunctionalInterface
+    public interface StrFunctionStrStrArr{
+        String apply(String str, String[] param);
+    }
 }

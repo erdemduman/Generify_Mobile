@@ -36,7 +36,7 @@ public class UserTopTracksAdapter extends RecyclerView.Adapter<UserTopTracksAdap
         Picasso.get().load(userTopTrackList.get(position).getAlbumCover()).into(holder.albumCover);
         holder.artistName.setText(userTopTrackList.get(position).getArtistName());
         holder.albumName.setText(userTopTrackList.get(position).getAlbumName());
-        holder.songName.setText(userTopTrackList.get(position).getSongName());
+        holder.trackName.setText(userTopTrackList.get(position).getTrackName());
     }
 
     @Override
@@ -52,14 +52,14 @@ public class UserTopTracksAdapter extends RecyclerView.Adapter<UserTopTracksAdap
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView albumCover;
-        public TextView songName;
+        public TextView trackName;
         public TextView albumName;
         public TextView artistName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             albumCover = itemView.findViewById(R.id.card_top_songs_album_cover_id);
-            songName = itemView.findViewById(R.id.card_top_songs_track_name_id);
+            trackName = itemView.findViewById(R.id.card_top_songs_track_name_id);
             albumName = itemView.findViewById(R.id.card_top_songs_album_id);
             artistName = itemView.findViewById(R.id.card_top_songs_artist_id);
         }

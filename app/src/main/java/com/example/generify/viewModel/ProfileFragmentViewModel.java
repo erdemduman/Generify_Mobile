@@ -11,8 +11,9 @@ import com.example.generify.command.ICommand;
 import com.example.generify.constant.ServiceDictionary;
 import com.example.generify.model.UserTopTrack;
 import com.example.generify.service.SpotifyAuth;
-import com.example.generify.service.UserService;
+import com.example.generify.service.ApiService;
 import com.example.generify.service.Worker;
+import com.example.generify.util.GenerifyFunction;
 import com.example.generify.util.parser.UserParser;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 
@@ -23,14 +24,15 @@ public class ProfileFragmentViewModel extends BaseViewModel {
     private MutableLiveData<AuthenticationRequest> spotifyAuthRequestProp;
     public String profileText;
     private ICommand back;
-    private String userTopTracksRaw = "asd";
+    private String userTopTracksRaw;
     private MutableLiveData<List<UserTopTrack>> userTopTracks;
+    private ApiService apiService;
 
     public ProfileFragmentViewModel(@NonNull Application application){
         super(application);
         spotifyAuthRequestProp = new MutableLiveData<>();
-        userTopTracks = new MutableLiveData<>();
         initCmd();
+        apiService = new ApiService(getApplication());
         serviceCall();
     }
 
@@ -39,16 +41,20 @@ public class ProfileFragmentViewModel extends BaseViewModel {
     }
 
     private void serviceCall(){
-        UserService userService = new UserService(getApplication());
-        try{
-            userTopTracksRaw = new Worker(userService.getMethod(ServiceDictionary.USER_TOP_TRACKS)).execute().get();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        if(userTopTracks == null){
+            try{
+                String endpoint = apiService.getMethod(ServiceDictionary.USER_TOP_TRACKS).first;
+                GenerifyFunction.StrFunctionStrStrArr action = apiService.getMethod(ServiceDictionary.USER_TOP_TRACKS).second;
+                userTopTracksRaw = new Worker(action, endpoint, null).execute().get();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
-        new Thread(() -> {
-            userTopTracks.postValue(UserParser.userTopTracksParser(userTopTracksRaw));
-        }).start();
+            new Thread(() -> {
+                userTopTracks = new MutableLiveData<>();
+                userTopTracks.postValue(UserParser.userTopTracksParser(userTopTracksRaw));
+            }).start();
+        }
     }
 
     public void onClickLoginToSpotify(){

@@ -95,7 +95,7 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
 
     @Override
     protected void initViewModel(){
-        viewModel = ViewModelProviders.of(this, new ViewModelFactory(application)).
+        viewModel = ViewModelProviders.of(activity, new ViewModelFactory(application)).
                 get(ProfileFragmentViewModel.class);
         binding.setViewModel(viewModel);
     }
@@ -106,6 +106,11 @@ public class ProfileFragment extends BaseFragment<ProfileFragmentViewModel, Dash
         auth_view = view.findViewById(R.id.profile_fragment_auth_id);
         non_auth_view = view.findViewById(R.id.profile_fragment_nonauth_id);
         userTopTracksRecyclerView = view.findViewById(R.id.top_tracks_recycler_view);
+    }
+
+    @Override
+    protected void initListener(){
+
     }
 
     @Override

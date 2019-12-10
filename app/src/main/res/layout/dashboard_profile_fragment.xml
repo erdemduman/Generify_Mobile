@@ -18,7 +18,7 @@
         <com.example.generify.view.customView.TitleBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:command="@{viewModel.backCmd}"/>
+            app:name='@{"Profile"}' />
 
         <!--region NonAuth Fragment-->
         <LinearLayout
@@ -110,30 +110,33 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="end"
-                        android:text="Top Tracks"
-                        android:textColor="@color/malachite"
-                        android:textSize="35sp" />
+                        android:text="@string/text_top_tracks"
+                        android:textColor="@color/mustard"
+                        android:textSize="35sp"
+                        android:layout_marginRight="10sp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/top_tracks_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp"
+                        android:background="@null"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="end"
-                        android:text="Top Artists"
-                        android:textColor="@color/malachite"
-                        android:textSize="35sp" />
+                        android:text="@string/text_top_artists"
+                        android:textColor="@color/darkOrange"
+                        android:textSize="35sp"
+                        android:layout_marginRight="10sp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/top_artists_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"/>
+                        android:background="@null"/>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

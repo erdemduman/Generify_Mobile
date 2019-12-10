@@ -25,7 +25,4 @@ public class DashboardViewModel extends BaseViewModel {
     public LiveData<AuthenticationRequest> getSpotifyAuthRequest(){
         return spotifyAuthRequestProp;
     }
-
-
-
 }

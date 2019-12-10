@@ -4,7 +4,10 @@
     <string name="text_playlist">Playlist</string>
     <string name="text_notifications">Notifications</string>
     <string name="text_profile">Profile</string>
+    <string name="text_top_tracks">Top Tracks</string>
+    <string name="text_top_artists">Top Artists</string>
     <string name="text_login_spotify">Login to Spotify</string>
     <string name="com_spotify_sdk_redirect_scheme">yourscheme</string>
     <string name="com_spotify_sdk_redirect_host">yourhost</string>
+    <string name="search_track_hint_text">Search for a track here</string>
 </resources>

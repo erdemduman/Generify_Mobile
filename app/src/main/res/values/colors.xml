@@ -10,4 +10,7 @@
     <color name="humanWhite">#AAFFFFFF</color>
     <color name="backgroundStart">#FF856428</color>
     <color name="backgroundEnd">#181818</color>
+    <color name="mustard">#FFC100</color>
+    <color name="darkOrange">#FF5100</color>
+    <color name="darkGray">#434343</color>
 </resources>

@@ -6,15 +6,19 @@ import com.example.generify.util.GenerifyFunction;
 
 public class Worker extends AsyncTask<Void, Void, String> {
 
-    private GenerifyFunction.StringFunction action;
+    private GenerifyFunction.StrFunctionStrStrArr action;
+    private String endpoint;
+    private String[] param;
 
-    public Worker(GenerifyFunction.StringFunction action){
+    public Worker(GenerifyFunction.StrFunctionStrStrArr action, String endpoint, String[] param){
         this.action = action;
+        this.endpoint = endpoint;
+        this.param = param;
     }
 
     @Override
     protected String doInBackground(Void... params) {
-        return action.apply();
+        return action.apply(endpoint, param);
     }
 
     @Override

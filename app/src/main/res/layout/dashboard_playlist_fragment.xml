@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+    <variable
+        name="viewModel"
+        type="com.example.generify.viewModel.PlaylistFragmentViewModel" />
+</data>
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_playlist"
-        android:gravity="center" />
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <com.example.generify.view.customView.TitleBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:name='@{"Playlist"}'/>
+
+        <SearchView
+            android:id="@+id/playlist_searchview_id"
+            android:theme="@style/CustomSearchViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="@string/search_track_hint_text"
+            android:iconifiedByDefault="false"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_track_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@null"/>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>
