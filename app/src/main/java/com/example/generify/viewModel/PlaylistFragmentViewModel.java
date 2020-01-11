@@ -29,7 +29,6 @@ public class PlaylistFragmentViewModel extends BaseViewModel {
 
     private void serviceCall(){
 
-
     }
 
     public void searchTrackCall(String[] param){
@@ -37,7 +36,7 @@ public class PlaylistFragmentViewModel extends BaseViewModel {
             String endpoint = apiService.getMethod(ServiceDictionary.SEARCH).first;
             GenerifyFunction.StrFunctionStrStrArr action = apiService.getMethod(ServiceDictionary.SEARCH).second;
             searchTrackRaw = new Worker(action, endpoint, param).execute().get();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
 

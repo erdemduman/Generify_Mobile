@@ -11,16 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.generify.R;
 import com.example.generify.model.SearchTrack;
-import com.example.generify.model.UserTopTrack;
+import com.example.generify.util.RecyclerViewItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class SearchTrackAdapter extends RecyclerView.Adapter<SearchTrackAdapter.ViewHolder> {
     private List<SearchTrack> searchTrackList;
+    private RecyclerViewItemClickListener listener;
 
-    public SearchTrackAdapter(List<SearchTrack> searchTracks){
+    public SearchTrackAdapter(List<SearchTrack> searchTracks, RecyclerViewItemClickListener listener){
         this.searchTrackList = searchTracks;
+        this.listener = listener;
     }
 
     @NonNull
@@ -28,6 +30,12 @@ public class SearchTrackAdapter extends RecyclerView.Adapter<SearchTrackAdapter.
     public SearchTrackAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_search_track, parent, false);
         final SearchTrackAdapter.ViewHolder viewHolder = new SearchTrackAdapter.ViewHolder(v);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, viewHolder.getLayoutPosition());
+            }
+        });
         return viewHolder;
     }
 

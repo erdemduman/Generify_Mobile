@@ -10,4 +10,6 @@
     <string name="com_spotify_sdk_redirect_scheme">yourscheme</string>
     <string name="com_spotify_sdk_redirect_host">yourhost</string>
     <string name="search_track_hint_text">Search for a track here</string>
+    <string name="text_selected_track">Selected Track</string>
+    <string name="text_generate">Generate</string>
 </resources>
