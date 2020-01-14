@@ -31,8 +31,8 @@ public abstract class BaseFragment<T extends BaseViewModel, B extends ViewDataBi
         view = binding.getRoot();
 
         initArguments();
-        initViewModel();
         initView();
+        initViewModel();
         initListener();
         initObserver();
     }

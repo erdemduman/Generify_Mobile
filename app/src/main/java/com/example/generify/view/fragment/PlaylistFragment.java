@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.generify.R;
 import com.example.generify.databinding.DashboardPlaylistFragmentBinding;
+import com.example.generify.util.ProgressBarListener;
 import com.example.generify.util.RecyclerViewItemClickListener;
 import com.example.generify.util.ViewModelFactory;
 import com.example.generify.view.adapter.GeneratedPlaylistAdapter;
@@ -86,13 +87,6 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
     }
 
     @Override
-    protected void initViewModel() {
-        viewModel = ViewModelProviders.of(activity, new ViewModelFactory(application)).
-                get(PlaylistFragmentViewModel.class);
-        binding.setViewModel(viewModel);
-    }
-
-    @Override
     protected void initView() {
         searchView = view.findViewById(R.id.playlist_searchview_id);
         searchTrackRecyclerView = view.findViewById(R.id.search_track_recycler_view);
@@ -100,6 +94,24 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
         selectedTrack = view.findViewById(R.id.dashboard_playlist_selected_track_id);
         playlistText = view.findViewById(R.id.dashboard_playlist_playlist_id);
         progressBar = view.findViewById(R.id.progress_bar_id);
+    }
+
+    @Override
+    protected void initViewModel() {
+        viewModel = ViewModelProviders.of(activity, new ViewModelFactory(application, new ProgressBarListener() {
+            @Override
+            public void showProgressBar() {
+                progressBar.setVisibility(View.VISIBLE);
+                Log.d("PROCESS", "Started");
+            }
+
+            @Override
+            public void hideProgressBar() {
+                progressBar.setVisibility(View.GONE);
+                Log.d("PROCESS", "Ended");
+            }
+        })).get(PlaylistFragmentViewModel.class);
+        binding.setViewModel(viewModel);
     }
 
     @Override
@@ -173,30 +185,6 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
             else{
                 playlistText.setVisibility(View.VISIBLE);
                 generatedPlaylistRecyclerView.setVisibility(View.VISIBLE);
-            }
-        });
-
-        viewModel.getShowPopup().observe(this, showPopup -> {
-            if(showPopup.booleanValue()){
-                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.VISIBLE);
-                    }
-                });
-                Log.d("POPUP", "Open");
-            }
-            else{
-                Log.d("POPUP", "Close");
-                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
             }
         });
     }

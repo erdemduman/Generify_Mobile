@@ -10,6 +10,7 @@ import com.example.generify.command.Command;
 import com.example.generify.command.ICommand;
 import com.example.generify.constant.ServiceDictionary;
 import com.example.generify.model.GeneratePlaylist;
+import com.example.generify.util.ProgressBarListener;
 import com.example.generify.util.parameter.GenerateParameter;
 import com.example.generify.model.SearchTrack;
 import com.example.generify.service.ApiService;
@@ -28,9 +29,20 @@ public class PlaylistFragmentViewModel extends BaseViewModel {
     private MutableLiveData<List<GeneratePlaylist>> generatedPlaylist;
     private ApiService apiService;
     private ICommand cmdGenerate;
+    private ProgressBarListener progressBarListener;
 
     public PlaylistFragmentViewModel(Application application) {
         super(application);
+        apiService = new ApiService(getApplication());
+        searchTrack = new MutableLiveData<>();
+        generatedPlaylist = new MutableLiveData<>();
+        cmdGenerate = new Command<GenerateParameter>(this::cmdGenerateCall);
+        serviceCall();
+    }
+
+    public PlaylistFragmentViewModel(Application application, ProgressBarListener progressBarListener) {
+        super(application);
+        this.progressBarListener = progressBarListener;
         apiService = new ApiService(getApplication());
         searchTrack = new MutableLiveData<>();
         generatedPlaylist = new MutableLiveData<>();
@@ -58,16 +70,14 @@ public class PlaylistFragmentViewModel extends BaseViewModel {
 
     public void cmdGenerateCall(GenerateParameter generateParameter){
         try{
-            showPopup.setValue(true);
             String endpoint = apiService.getMethod(ServiceDictionary.GENERATE).first;
             GenerifyFunction.StrFunctionStrStrArr action = apiService.getMethod(ServiceDictionary.GENERATE).second;
             String uri = "spotify:track:" + generateParameter.getTrackId();
             String feature = generateParameter.getFeature();
-            generatedPlaylistRaw = new Worker(action, endpoint, new String[]{uri, feature}).execute().get();
+            generatedPlaylistRaw = new Worker(action, endpoint, new String[]{uri, feature}, progressBarListener).execute().get();
         } catch (Exception e){
             e.printStackTrace();
         } finally {
-            showPopup.setValue(false);
             generatedPlaylist.postValue(GenerateParser.generatePlaylistParser(generatedPlaylistRaw));
         }
     }

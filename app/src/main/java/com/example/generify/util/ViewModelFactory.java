@@ -12,9 +12,15 @@ import com.example.generify.viewModel.ProfileFragmentViewModel;
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private Application application;
+    private ProgressBarListener progressBarListener;
 
     public ViewModelFactory(Application application){
         this.application = application;
+    }
+
+    public ViewModelFactory(Application application, ProgressBarListener progressBarListener){
+        this.application = application;
+        this.progressBarListener = progressBarListener;
     }
 
     @NonNull
@@ -26,7 +32,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         else if(modelClass == ProfileFragmentViewModel.class)
             return (T) new ProfileFragmentViewModel(application);
         else if(modelClass == PlaylistFragmentViewModel.class)
-            return (T) new PlaylistFragmentViewModel(application);
+            return (T) new PlaylistFragmentViewModel(application, progressBarListener);
         else
             return super.create(modelClass);
     }
