@@ -17,12 +17,17 @@ public class Worker extends AsyncTask<Void, Void, String> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
     protected String doInBackground(Void... params) {
         return action.apply(endpoint, param);
     }
 
     @Override
-    protected void onPostExecute(String str) {
-        super.onPostExecute(str);
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.generify.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,7 +31,6 @@ public class DashboardActivity extends BaseActivity<DashboardViewModel, Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.init();
-
         firstRunCheck();
         defaultFragment();
     }

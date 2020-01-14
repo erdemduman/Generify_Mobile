@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/dashboard_bottom_nav_home"
-        android:title=""
-        android:icon="@drawable/ic_home_black_24dp" />
-
-    <item
         android:id="@+id/dashboard_bottom_nav_playlist"
         android:title=""
         android:icon="@drawable/ic_playlist_black_24dp"/>

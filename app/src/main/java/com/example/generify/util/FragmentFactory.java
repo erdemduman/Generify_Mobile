@@ -15,10 +15,6 @@ public class FragmentFactory {
         Fragment fragment = null;
 
         switch (item.getItemId()){
-            case R.id.dashboard_bottom_nav_home:
-                fragment = new HomeFragment();
-                break;
-
             case R.id.dashboard_bottom_nav_playlist:
                 fragment = new PlaylistFragment();
                 break;
@@ -35,6 +31,6 @@ public class FragmentFactory {
     }
 
     public static Fragment getDashboardFragment(){
-        return new HomeFragment();
+        return new PlaylistFragment();
     }
 }

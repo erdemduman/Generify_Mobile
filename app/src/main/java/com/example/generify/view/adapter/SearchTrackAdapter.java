@@ -18,11 +18,11 @@ import java.util.List;
 
 public class SearchTrackAdapter extends RecyclerView.Adapter<SearchTrackAdapter.ViewHolder> {
     private List<SearchTrack> searchTrackList;
-    private RecyclerViewItemClickListener listener;
+    private RecyclerViewItemClickListener trackClickListener;
 
-    public SearchTrackAdapter(List<SearchTrack> searchTracks, RecyclerViewItemClickListener listener){
+    public SearchTrackAdapter(List<SearchTrack> searchTracks, RecyclerViewItemClickListener trackClickListener){
         this.searchTrackList = searchTracks;
-        this.listener = listener;
+        this.trackClickListener = trackClickListener;
     }
 
     @NonNull
@@ -33,7 +33,7 @@ public class SearchTrackAdapter extends RecyclerView.Adapter<SearchTrackAdapter.
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(v, viewHolder.getLayoutPosition());
+                trackClickListener.onItemClick(v, viewHolder.getLayoutPosition());
             }
         });
         return viewHolder;

@@ -1,15 +1,20 @@
 package com.example.generify.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +27,7 @@ import com.example.generify.R;
 import com.example.generify.databinding.DashboardPlaylistFragmentBinding;
 import com.example.generify.util.RecyclerViewItemClickListener;
 import com.example.generify.util.ViewModelFactory;
+import com.example.generify.view.adapter.GeneratedPlaylistAdapter;
 import com.example.generify.view.adapter.SearchTrackAdapter;
 import com.example.generify.view.adapter.UserTopTracksAdapter;
 import com.example.generify.view.customView.SelectedTrack;
@@ -34,11 +40,14 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
 
     private SearchView searchView;
     private RecyclerView searchTrackRecyclerView;
+    private RecyclerView generatedPlaylistRecyclerView;
     private SearchTrackAdapter searchTrackAdapter;
+    private GeneratedPlaylistAdapter generatedPlaylistAdapter;
     private CountDownTimer searchCountDown;
+    private ProgressBar progressBar;
     private SelectedTrack selectedTrack;
+    private TextView playlistText;
     private String[] searchText = {""};
-    private String[] features = {"energy", "acousticness", "instrumentalness", "valence", "tempo", "speechiness"};
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,7 +55,7 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
         activity = getActivity();
         application = activity.getApplication();
 
-        searchCountDown = new CountDownTimer(300, 300) {
+        searchCountDown = new CountDownTimer(500, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -87,7 +96,10 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
     protected void initView() {
         searchView = view.findViewById(R.id.playlist_searchview_id);
         searchTrackRecyclerView = view.findViewById(R.id.search_track_recycler_view);
+        generatedPlaylistRecyclerView = view.findViewById(R.id.dashboard_playlist_generated_playlist_recycler_view_id);
         selectedTrack = view.findViewById(R.id.dashboard_playlist_selected_track_id);
+        playlistText = view.findViewById(R.id.dashboard_playlist_playlist_id);
+        progressBar = view.findViewById(R.id.progress_bar_id);
     }
 
     @Override
@@ -105,10 +117,16 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
                 if(newText.isEmpty()|| newText == null){
                     searchTrackRecyclerView.setVisibility(View.GONE);
                     selectedTrack.setVisibility(View.VISIBLE);
+                    if(selectedTrack.getGenerateButtonClicked().getValue()){
+                        playlistText.setVisibility(View.VISIBLE);
+                        generatedPlaylistRecyclerView.setVisibility(View.VISIBLE);
+                    }
                 }
                 else{
                     searchTrackRecyclerView.setVisibility(View.VISIBLE);
                     selectedTrack.setVisibility(View.GONE);
+                    playlistText.setVisibility(View.GONE);
+                    generatedPlaylistRecyclerView.setVisibility(View.GONE);
                     searchText[0] = newText;
                     searchCountDown.start();
                 }
@@ -124,13 +142,62 @@ public class PlaylistFragment extends BaseFragment<PlaylistFragmentViewModel, Da
                 selectedTrack.setTrackName(searchTracks.get(position).getTrackName());
                 selectedTrack.setAlbumCover(searchTracks.get(position).getAlbumCover());
                 selectedTrack.setArtistName(searchTracks.get(position).getArtistName());
+                selectedTrack.setGenerateCommand(viewModel.getCmdGenerate());
                 selectedTrack.setTrackId(searchTracks.get(position).getTrackId());
+
                 searchTrackRecyclerView.setVisibility(View.GONE);
                 selectedTrack.setVisibility(View.VISIBLE);
+                playlistText.setVisibility(View.GONE);
+                generatedPlaylistRecyclerView.setVisibility(View.GONE);
                 return true;
             });
             searchTrackRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
             searchTrackRecyclerView.setAdapter(searchTrackAdapter);
+        });
+
+        viewModel.getGeneratedPlaylist().observe(this, generatedPlaylist -> {
+            generatedPlaylistAdapter = new GeneratedPlaylistAdapter(generatedPlaylist, (v, position) -> {
+                Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(generatedPlaylist.get(position).getTrackUri()));
+                startActivity(spotifyIntent);
+                return true;
+            });
+            generatedPlaylistRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            generatedPlaylistRecyclerView.setAdapter(generatedPlaylistAdapter);
+        });
+
+        selectedTrack.getGenerateButtonClicked().observe(this, buttonResponse -> {
+            if(!buttonResponse){
+                playlistText.setVisibility(View.GONE);
+                generatedPlaylistRecyclerView.setVisibility(View.GONE);
+            }
+            else{
+                playlistText.setVisibility(View.VISIBLE);
+                generatedPlaylistRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        viewModel.getShowPopup().observe(this, showPopup -> {
+            if(showPopup.booleanValue()){
+                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                });
+                Log.d("POPUP", "Open");
+            }
+            else{
+                Log.d("POPUP", "Close");
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
         });
     }
 
